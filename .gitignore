@@ -9,6 +9,7 @@ venv/
 
 # Archivos de configuración locales
 .env
+env/
 
 # Archivos de registro y datos temporales
 *.log

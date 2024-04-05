@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparar Archivos</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Manipulation</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Comparar Archivos</h1>
-        <p>Esta aplicación te permite comparar dos archivos y eliminar las líneas del primer archivo que se encuentran en el segundo archivo.</p>
-        <p>Para usar la aplicación, sigue estos pasos:</p>
-        <ol>
-            <li>Selecciona los archivos que deseas comparar.</li>
-            <li>Selecciona el separador utilizado en los archivos (por ejemplo, coma, tabulación, punto y coma, dos puntos o salto de línea).</li>
-            <li>Haz clic en el botón "Comparar" para iniciar el proceso.</li>
-            <li>Una vez completado, haz clic en el enlace para descargar el archivo resultante.</li>
-        </ol>
-        {% if message %}
-            <p class="{{msgIndicator}}">{{ message }}</p>
-        {% endif %}
-        <form action="/process" method="post" enctype="multipart/form-data">
-            <label for="fileA">Archivo A:</label>
-            <input type="file" id="fileA" name="fileA" accept=".csv, .txt"><br><br>
-            <label for="fileB">Archivo B:</label>
-            <input type="file" id="fileB" name="fileB" accept=".csv, .txt"><br><br>
-            <label for="separator">Separador:</label>
-            <select id="separator" name="separator">
-                <option value="tab">Tabulación (\t)</option>
-                <option value=",">Coma (,)</option>
-                <option value=";">Punto y coma (;)</option>
-                <option value=":">Dos puntos (:) </option>
-                <option value="line">Salto de línea</option>
-                <!-- Agrega más opciones si necesitas -->
-            </select><br><br>
-            <input type="submit" value="Comparar">
-        </form>
-        <p>Nota: Los archivos deben estar en el mismo formato y deben tener la misma estructura para una comparación precisa.</p>
-    </div>
+  <div class="container">
+    <h1>Compare Files and Remove Matches</h1>
+    <p>This application allows you to compare two files and remove lines from the first file that are found in the second file.</p>
+    <p>To use the application, follow these steps:</p>
+    <ol>
+      <li>Select the files you want to compare.</li>
+      <li>Select the separator used in the files (e.g., comma, tab, semicolon, colon, or line break).</li>
+      <li>Click the "Compare" button to start the process.</li>
+      <li>Once completed, click the link to download the resulting file.</li>
+    </ol>
+    {% if message %}
+      <p class="{{msgIndicator}}">{{ message }}</p>
+    {% endif %}
+    <form action="/process" method="post" enctype="multipart/form-data">
+      <label for="fileA">File A:</label>
+      <input type="file" id="fileA" name="fileA" accept=".csv, .txt"><br><br>
+      <label for="fileB">File B:</label>
+      <input type="file" id="fileB" name="fileB" accept=".csv, .txt"><br><br>
+      <label for="separator">Separator:</label>
+      <select id="separator" name="separator">
+        <option value="tab">Tabulation (\t)</option>
+        <option value=",">Comma (,)</option>
+        <option value=";">Semicolon (;)</option>
+        <option value=":">Colon (:) </option>
+        <option value="line">Line break</option>
+              </select><br><br>
+      <input type="submit" value="Compare">
+    </form>
+    <p>Note: The files must be in the same format and have the same structure for an accurate comparison.</p>
+  </div>
 </body>
 </html>
-

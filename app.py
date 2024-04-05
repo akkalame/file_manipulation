@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 import pandas as pd
 import re
+from pathlib import Path
 
 app = Flask(__name__,template_folder='app/templates', static_folder='app/static')
 
@@ -21,28 +22,33 @@ def index():
 # Ruta para manejar la solicitud POST del formulario
 @app.route('/process', methods=['POST'])
 def process():
-	fileA = request.files['fileA']
-	fileB = request.files['fileB']
-	sep = request.form['separator']
-	tempRoute = "app/temp/"
-	# Guardar los archivos temporales
-	fileA.save(tempRoute+fileA.filename)
+	try:
+		
+		fileA = request.files['fileA']
+		fileB = request.files['fileB']
+		sep = request.form['separator']
+		tempRoute = os.getcwd()+"\\app\\temp\\"
+		mkdir(tempRoute)
+		# Guardar los archivos temporales
+		fileA.save(tempRoute+fileA.filename)
+		
+		fileB.save(tempRoute+fileB.filename)
+
+		fileCName = os.path.splitext(fileA.filename)[0] + "-output."+os.path.splitext(fileA.filename)[1]
+		
+		# Llamar a la función cleanFile
+		msg, indicator = cleanFile(tempRoute+fileA.filename, tempRoute+fileB.filename, sep, fileCName)
+
+		# Eliminar los archivos temporales
+		os.remove(tempRoute+fileA.filename)
+		os.remove(tempRoute+fileB.filename)
+
+		if not msg:
+			return send_file(fileCName, as_attachment=True)
+		return render_template('index.html', message=msg, msgIndicator=indicator)
+	except Exception as e:
+		return str(e)
 	
-	fileB.save(tempRoute+fileB.filename)
-
-	fileCName = os.path.splitext(fileA.filename)[0] + "-output."+os.path.splitext(fileA.filename)[1]
-	
-	# Llamar a la función cleanFile
-	msg, indicator = cleanFile(tempRoute+fileA.filename, tempRoute+fileB.filename, sep, fileCName)
-
-	# Eliminar los archivos temporales
-	os.remove(tempRoute+fileA.filename)
-	os.remove(tempRoute+fileB.filename)
-
-	if not msg:
-		return send_file(fileCName, as_attachment=True)
-	return render_template('index.html', message=msg, msgIndicator=indicator)
-
 def cleanFile(fileA, fileB, sep, fileC, encoding="utf-8"):
 	try:
 		sep = delimeter[sep]
@@ -87,7 +93,7 @@ def cleanFile(fileA, fileB, sep, fileC, encoding="utf-8"):
 	except pd.errors.ParserError as e:
 		return parse_pandas_error_message(str(e))
 	except Exception as e:
-		raise e
+		return str(e)
 
 
 def parse_pandas_error_message(error_message):
@@ -110,4 +116,11 @@ if __name__ == '__main__':
 	app.run(debug=True)
 
 
+def mkdir(path):
+	carpeta = Path(path)
+	if not carpeta.exists():
+		try:
+			carpeta.mkdir()
+		except:
+			pass
 
