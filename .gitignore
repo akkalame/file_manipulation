@@ -1,0 +1,31 @@
+# Archivos y directorios generados automáticamente
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Directorio virtualenv
+venv/
+
+# Archivos de configuración locales
+.env
+
+# Archivos de registro y datos temporales
+*.log
+*.tmp
+
+# Archivos de compilación
+*.o
+*.pyc
+*.so
+*.dll
+
+# Archivos de configuración de IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Dependencias y paquetes de Python
+*.egg-info/
+dist/
+build/

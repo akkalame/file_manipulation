@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparar Archivos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Comparar Archivos</h1>
+        <p>Esta aplicación te permite comparar dos archivos y eliminar las líneas del primer archivo que se encuentran en el segundo archivo.</p>
+        <p>Para usar la aplicación, sigue estos pasos:</p>
+        <ol>
+            <li>Selecciona los archivos que deseas comparar.</li>
+            <li>Selecciona el separador utilizado en los archivos (por ejemplo, coma, tabulación, punto y coma, dos puntos o salto de línea).</li>
+            <li>Haz clic en el botón "Comparar" para iniciar el proceso.</li>
+            <li>Una vez completado, haz clic en el enlace para descargar el archivo resultante.</li>
+        </ol>
+        {% if message %}
+            <p class="{{msgIndicator}}">{{ message }}</p>
+        {% endif %}
+        <form action="/process" method="post" enctype="multipart/form-data">
+            <label for="fileA">Archivo A:</label>
+            <input type="file" id="fileA" name="fileA" accept=".csv, .txt"><br><br>
+            <label for="fileB">Archivo B:</label>
+            <input type="file" id="fileB" name="fileB" accept=".csv, .txt"><br><br>
+            <label for="separator">Separador:</label>
+            <select id="separator" name="separator">
+                <option value="tab">Tabulación (\t)</option>
+                <option value=",">Coma (,)</option>
+                <option value=";">Punto y coma (;)</option>
+                <option value=":">Dos puntos (:) </option>
+                <option value="line">Salto de línea</option>
+                <!-- Agrega más opciones si necesitas -->
+            </select><br><br>
+            <input type="submit" value="Comparar">
+        </form>
+        <p>Nota: Los archivos deben estar en el mismo formato y deben tener la misma estructura para una comparación precisa.</p>
+    </div>
+</body>
+</html>
+
